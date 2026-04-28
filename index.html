@@ -3,33 +3,98 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>字幕時間軸校對工具 PRO MAX Final</title>
+  <title>字幕時間軸校對工具｜真正完整版</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="app-shell">
+  <div class="app">
     <header class="topbar">
-      <h1>字幕時間軸校對工具 PRO MAX Final</h1>
-      <div>
-        <input type="file" id="audioInput">
-        <input type="file" id="srtInput">
-        <button id="exportBtn">匯出 SRT</button>
+      <div class="brand">
+        <h1>字幕時間軸校對工具 <span>TRUE FINAL</span></h1>
+        <p>整段波形｜拖曳移動｜左右拉伸｜同步高亮｜時間軸縮放｜快捷鍵｜匯出 SRT</p>
+      </div>
+      <div class="actions">
+        <label class="btn file">
+          載入音訊
+          <input id="audioInput" type="file" accept="audio/*" />
+        </label>
+        <label class="btn file">
+          載入 SRT
+          <input id="srtInput" type="file" accept=".srt,text/plain" />
+        </label>
+        <button id="exportBtn" class="btn strong">匯出 SRT</button>
       </div>
     </header>
 
-    <audio id="audio" controls></audio>
-
-    <div id="timelineScroller" class="timeline-scroller">
-      <div id="timelineCanvasWrap" class="timeline-canvas-wrap">
-        <canvas id="waveCanvas"></canvas>
-        <div id="playhead"></div>
-        <div id="subtitleTrack"></div>
+    <section class="player">
+      <audio id="audio" controls></audio>
+      <div class="player-controls">
+        <button id="backBtn" class="btn">⏪ -1s</button>
+        <button id="playBtn" class="btn strong">播放 / 暫停</button>
+        <button id="forwardBtn" class="btn">+1s ⏩</button>
+        <div class="timebox">
+          <span id="currentTime">00:00:00,000</span>
+          <span>/</span>
+          <span id="durationTime">00:00:00,000</span>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div id="subtitleList"></div>
+    <main class="layout">
+      <aside class="side">
+        <div class="card">
+          <h2>校對控制</h2>
+          <label>整體偏移秒數</label>
+          <div class="row">
+            <input id="offsetInput" type="number" step="0.1" value="0" />
+            <button id="offsetBtn" class="btn">套用</button>
+          </div>
+
+          <label>時間軸縮放</label>
+          <input id="zoomRange" type="range" min="1" max="14" value="5" />
+
+          <button id="detectBtn" class="btn full">自動偵測延遲</button>
+          <div id="detectResult" class="note">尚未偵測</div>
+        </div>
+
+        <div class="card">
+          <h2>快捷鍵</h2>
+          <ul class="keys">
+            <li><b>Space</b> 播放 / 暫停</li>
+            <li><b>← / →</b> 前後 0.5 秒</li>
+            <li><b>A / D</b> 選取字幕 ±0.1 秒</li>
+            <li><b>Delete</b> 刪除選取字幕</li>
+          </ul>
+        </div>
+      </aside>
+
+      <section class="editor">
+        <div class="editor-head">
+          <strong>時間軸</strong>
+          <span id="status">請載入音訊與 SRT 字幕</span>
+          <em>中間拖曳移動｜左右邊緣拉長縮短</em>
+        </div>
+
+        <div id="timelineScroller" class="timeline-scroller">
+          <div id="timelineWrap" class="timeline-wrap">
+            <canvas id="rulerCanvas"></canvas>
+            <canvas id="waveCanvas"></canvas>
+            <div id="playhead"></div>
+            <div id="subtitleTrack"></div>
+          </div>
+        </div>
+
+        <div class="table-head">
+          <span>#</span>
+          <span>開始時間</span>
+          <span>結束時間</span>
+          <span>字幕內容</span>
+        </div>
+        <div id="subtitleList" class="subtitle-list"></div>
+      </section>
+    </main>
   </div>
 
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
