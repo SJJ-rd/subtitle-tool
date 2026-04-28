@@ -3,96 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>字幕時間軸校對工具 PRO MAX</title>
+  <title>字幕時間軸校對工具 PRO MAX Final</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="app-shell">
     <header class="topbar">
+      <h1>字幕時間軸校對工具 PRO MAX Final</h1>
       <div>
-        <h1>字幕時間軸校對工具 <span>PRO MAX</span></h1>
-        <p>音訊播放｜整段波形｜字幕拖曳｜同步高亮｜快捷鍵｜SRT 匯出</p>
-      </div>
-      <div class="file-panel">
-        <label class="file-btn">
-          載入音訊
-          <input id="audioInput" type="file" accept="audio/*" />
-        </label>
-        <label class="file-btn">
-          載入 SRT
-          <input id="srtInput" type="file" accept=".srt,text/plain" />
-        </label>
+        <input type="file" id="audioInput">
+        <input type="file" id="srtInput">
         <button id="exportBtn">匯出 SRT</button>
       </div>
     </header>
 
-    <main class="workspace">
-      <section class="left-panel">
-        <div class="player-card">
-          <audio id="audio" controls></audio>
-          <div class="transport">
-            <button id="backBtn">⏪ -1s</button>
-            <button id="playBtn" class="primary">▶ / ⏸</button>
-            <button id="forwardBtn">+1s ⏩</button>
-          </div>
-          <div class="time-readout">
-            <span id="currentTime">00:00:00,000</span>
-            <span>/</span>
-            <span id="durationTime">00:00:00,000</span>
-          </div>
-        </div>
+    <audio id="audio" controls></audio>
 
-        <div class="tool-card">
-          <h2>校正工具</h2>
-          <label>整體偏移秒數</label>
-          <div class="row">
-            <input id="offsetInput" type="number" step="0.1" value="0" />
-            <button id="offsetBtn">套用</button>
-          </div>
-          <label>時間軸縮放</label>
-          <input id="zoomRange" type="range" min="1" max="12" value="4" />
-          <div class="hint">
-            快捷鍵：Space 播放/暫停｜← → 跳 0.5 秒｜A/D 微調選取字幕 ±0.1 秒｜Delete 刪除字幕
-          </div>
-        </div>
+    <div id="timelineScroller" class="timeline-scroller">
+      <div id="timelineCanvasWrap" class="timeline-canvas-wrap">
+        <canvas id="waveCanvas"></canvas>
+        <div id="playhead"></div>
+        <div id="subtitleTrack"></div>
+      </div>
+    </div>
 
-        <div class="tool-card">
-          <h2>自動延遲偵測</h2>
-          <p>基礎偵測：抓音訊開頭第一個明顯能量點，對齊第一句字幕開始時間。</p>
-          <button id="detectBtn">偵測並套用延遲</button>
-          <div id="detectResult" class="result">尚未偵測</div>
-        </div>
-      </section>
-
-      <section class="editor-panel">
-        <div class="timeline-toolbar">
-          <div>
-            <strong>波形時間軸</strong>
-            <span id="statusText">請先載入音訊與 SRT</span>
-          </div>
-          <div class="badge">拖曳字幕片段即可改時間</div>
-        </div>
-
-        <div id="timelineScroller" class="timeline-scroller">
-          <div id="timelineCanvasWrap" class="timeline-canvas-wrap">
-            <canvas id="waveCanvas"></canvas>
-            <canvas id="rulerCanvas"></canvas>
-            <div id="playhead"></div>
-            <div id="subtitleTrack"></div>
-          </div>
-        </div>
-
-        <div class="subtitle-list-header">
-          <span>#</span>
-          <span>開始</span>
-          <span>結束</span>
-          <span>字幕內容</span>
-        </div>
-        <div id="subtitleList" class="subtitle-list"></div>
-      </section>
-    </main>
+    <div id="subtitleList"></div>
   </div>
 
-  <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
